@@ -8,6 +8,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<GrandmastersTable />} />
         <Route path="/player/:username" element={<PlayerProfile />} />
+        <Route path="*" element={<GrandmastersTable />} />
       </Routes>
     </BrowserRouter>
   )

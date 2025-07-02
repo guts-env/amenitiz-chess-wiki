@@ -11,6 +11,11 @@ function App() {
           <ModeToggle />
         </div>
         <AppRoutes />
+        <div className="mt-4 text-center">
+          <p className="text-sm text-muted-foreground">
+            <span className="font-bold">ChessWiki</span> by <a href="https://github.com/guts-env" className="text-primary hover:underline">Guts</a>
+          </p>
+        </div>
       </div>
     </ThemeProvider>
   )
