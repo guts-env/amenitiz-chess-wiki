@@ -28,43 +28,45 @@ import {
 import { Button } from '@/components/ui/button';
 
 import { getGrandmasters } from '@/api';
+import type { GrandmastersList } from '@/types/api';
 
 function GrandmastersTable() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 10;
+  const ROWS_PER_PAGE = 10;
 
-  const { data: grandmasters, isLoading, error } = useQuery({
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const { data: grandmasters, isLoading, error } = useQuery<GrandmastersList>({
     queryKey: ['grandmasters'],
     queryFn: getGrandmasters,
   });
 
-  const paginatedData = useMemo(() => {
+  const paginatedData: string[] = useMemo(() => {
     if (!grandmasters?.players) return [];
 
-    const startIndex = (currentPage - 1) * rowsPerPage;
-    const endIndex = startIndex + rowsPerPage;
+    const startIndex = (currentPage - 1) * ROWS_PER_PAGE;
+    const endIndex = startIndex + ROWS_PER_PAGE;
     return grandmasters.players.slice(startIndex, endIndex);
   }, [grandmasters?.players, currentPage]);
 
-  const totalPages = useMemo(() => {
+  const totalPages: number = useMemo(() => {
     if (!grandmasters?.players) return 0;
-    return Math.ceil(grandmasters.players.length / rowsPerPage);
+    return Math.ceil(grandmasters.players.length / ROWS_PER_PAGE);
   }, [grandmasters?.players]);
 
-  const handlePrevious = () => {
+  const handlePrevious = (): void => {
     setCurrentPage(prev => Math.max(prev - 1, 1));
   };
 
-  const handleNext = () => {
+  const handleNext = (): void => {
     setCurrentPage(prev => Math.min(prev + 1, totalPages));
   };
 
-  const handlePageClick = (page: number) => {
+  const handlePageClick = (page: number): void => {
     setCurrentPage(page);
   };
 
-  const renderPaginationItems = () => {
-    const items = [];
+  const renderPaginationItems = (): React.ReactNode[] => {
+    const items: React.ReactNode[] = [];
     const maxVisiblePages = 5;
 
     if (totalPages <= maxVisiblePages) {

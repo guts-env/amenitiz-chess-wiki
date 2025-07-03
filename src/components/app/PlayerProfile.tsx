@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import { fetchData, getPlayerProfile } from '@/api';
+import type { PlayerCountry, PlayerProfile } from '@/types/api';
 
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,19 +13,19 @@ function PlayerProfile() {
   const { username } = useParams();
   const navigate = useNavigate();
 
-  const { data: player, isLoading, error } = useQuery({
+  const { data: player, isLoading, error } = useQuery<PlayerProfile>({
     queryKey: ['player', username],
     queryFn: () => getPlayerProfile(username || ''),
     enabled: !!username,
   });
 
-  const { data: countryData, isLoading: countryLoading, error: countryError } = useQuery({
+  const { data: countryData, isLoading: countryLoading, error: countryError } = useQuery<PlayerCountry>({
     queryKey: ['country', player?.country],
-    queryFn: () => fetchData(player?.country),
+    queryFn: () => fetchData<PlayerCountry>(player?.country || ''),
     enabled: !!player?.country,
   });
 
-  const timeSinceLastOnline = useTimeSince(player?.last_online);
+  const timeSinceLastOnline: string = useTimeSince(player?.last_online || 0);
 
   if (!username) {
     navigate('/');
