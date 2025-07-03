@@ -9,6 +9,21 @@ import { Button } from '@/components/ui/button';
 
 import useTimeSince from '@/hooks/useTimeSince';
 
+
+const GrandmastersListButton = () => {
+  const navigate = useNavigate();
+
+  return (
+    <Button
+      variant="secondary"
+      onClick={() => navigate('/')}
+      className="text-xs sm:text-sm hover:cursor-pointer mx-auto px-3 sm:px-4 py-1 sm:py-2"
+    >
+      Go to Grandmasters List
+    </Button>
+  )
+}
+
 function PlayerProfile() {
   const { username } = useParams();
   const navigate = useNavigate();
@@ -32,7 +47,40 @@ function PlayerProfile() {
   }
 
   if (isLoading || countryLoading) return <div>Loading...</div>;
-  if (error || countryError) return <div>Error: {error?.message || countryError?.message}</div>;
+
+  const errorMessage = error?.message || countryError?.message;
+
+  if (errorMessage) {
+    if (errorMessage.includes('404')) {
+      return (
+        <Card className="w-full max-w-[400px] mx-auto px-4 sm:px-6 py-4 sm:py-6">
+          <CardHeader>
+            <CardTitle className="text-lg sm:text-xl">Player not found</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm sm:text-base">The player you are looking for does not exist.</p>
+          </CardContent>
+          <CardFooter>
+            <GrandmastersListButton />
+          </CardFooter>
+        </Card>
+      )
+    }
+
+    return (
+      <Card className="w-full max-w-[400px] mx-auto px-4 sm:px-6 py-4 sm:py-6">
+        <CardHeader>
+          <CardTitle className="text-lg sm:text-xl">Error</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm sm:text-base">An error occurred while fetching the player profile.</p>
+        </CardContent>
+        <CardFooter>
+          <GrandmastersListButton />
+        </CardFooter>
+      </Card>
+    )
+  }
 
   if (!player) return <div>No player found</div>;
 
@@ -91,13 +139,7 @@ function PlayerProfile() {
         </dl>
       </CardContent>
       <CardFooter>
-        <Button
-          variant="secondary"
-          onClick={() => navigate('/')}
-          className="text-xs sm:text-sm hover:cursor-pointer mx-auto px-3 sm:px-4 py-1 sm:py-2"
-        >
-          Go to Grandmasters List
-        </Button>
+        <GrandmastersListButton />
       </CardFooter>
     </Card>
   )
