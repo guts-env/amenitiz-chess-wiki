@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import { fetchData, getPlayerProfile } from '@/api';
-import type { PlayerCountry, PlayerProfile } from '@/types/api';
+import type { IPlayerCountry, IPlayerProfile } from '@/types/api';
 
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,15 +13,15 @@ function PlayerProfile() {
   const { username } = useParams();
   const navigate = useNavigate();
 
-  const { data: player, isLoading, error } = useQuery<PlayerProfile>({
+  const { data: player, isLoading, error } = useQuery<IPlayerProfile>({
     queryKey: ['player', username],
     queryFn: () => getPlayerProfile(username || ''),
     enabled: !!username,
   });
 
-  const { data: countryData, isLoading: countryLoading, error: countryError } = useQuery<PlayerCountry>({
+  const { data: countryData, isLoading: countryLoading, error: countryError } = useQuery<IPlayerCountry>({
     queryKey: ['country', player?.country],
-    queryFn: () => fetchData<PlayerCountry>(player?.country || ''),
+    queryFn: () => fetchData<IPlayerCountry>(player?.country || ''),
     enabled: !!player?.country,
   });
 

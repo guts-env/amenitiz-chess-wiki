@@ -1,8 +1,8 @@
-export interface GrandmastersList {
+export interface IGrandmastersList {
   players: string[];
 }
 
-export interface PlayerProfile {
+export interface IPlayerProfile {
   username: string;
   title: string;
   country: string;
@@ -16,7 +16,7 @@ export interface PlayerProfile {
   url: string;
 }
 
-export interface PlayerCountry {
+export interface IPlayerCountry {
   '@id': string;
   code: string;
   name: string;

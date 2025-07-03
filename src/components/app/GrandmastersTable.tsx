@@ -28,14 +28,14 @@ import {
 import { Button } from '@/components/ui/button';
 
 import { getGrandmasters } from '@/api';
-import type { GrandmastersList } from '@/types/api';
+import type { IGrandmastersList } from '@/types/api';
 
 function GrandmastersTable() {
   const ROWS_PER_PAGE = 10;
 
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const { data: grandmasters, isLoading, error } = useQuery<GrandmastersList>({
+  const { data: grandmasters, isLoading, error } = useQuery<IGrandmastersList>({
     queryKey: ['grandmasters'],
     queryFn: getGrandmasters,
   });

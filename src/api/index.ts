@@ -1,5 +1,5 @@
 import { ENDPOINTS } from "@/api/config";
-import type { GrandmastersList, PlayerProfile } from '@/types/api';
+import type { IGrandmastersList, IPlayerProfile } from '@/types/api';
 
 export const fetchData = async <T>(url: string): Promise<T> => {
   const response = await fetch(url);
@@ -11,7 +11,7 @@ export const fetchData = async <T>(url: string): Promise<T> => {
   return response.json();
 };
 
-export const getGrandmasters: () => Promise<GrandmastersList> = async () => {
+export const getGrandmasters: () => Promise<IGrandmastersList> = async () => {
   try {
     return await fetchData(ENDPOINTS.GET_GRANDMASTERS());
   } catch (error) {
@@ -20,7 +20,7 @@ export const getGrandmasters: () => Promise<GrandmastersList> = async () => {
   }
 };
 
-export const getPlayerProfile: (username: string) => Promise<PlayerProfile> = async (username: string) => {
+export const getPlayerProfile: (username: string) => Promise<IPlayerProfile> = async (username: string) => {
   try {
     return await fetchData(ENDPOINTS.GET_PLAYER_PROFILE(username));
   } catch (error) {
